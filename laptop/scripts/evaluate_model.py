@@ -14,21 +14,16 @@ import argparse
 import time
 from pathlib import Path
 
-import cv2
-import numpy as np
-import onnxruntime as ort
-from sklearn.metrics import classification_report, precision_recall_fscore_support
-from tqdm import tqdm
-
-
 # ベランダ監視で使用するクラス
 CLASS_NAMES = ["person", "bird", "cat", "dog"]
 CLASS_IDS = [0, 14, 15, 16]  # COCO クラスID
 COCO_TO_LOCAL = {cid: i for i, cid in enumerate(CLASS_IDS)}
 
 
-def load_onnx_session(model_path: str) -> ort.InferenceSession:
+def load_onnx_session(model_path: str):  # type: ignore[return]
     """ONNX Runtimeセッションを初期化する。CPUプロバイダーを使用。"""
+    import onnxruntime as ort  # noqa: PLC0415
+
     providers = ["CPUExecutionProvider"]
     session = ort.InferenceSession(model_path, providers=providers)
     print(f"[INFO] モデル読み込み完了: {model_path}")
@@ -36,19 +31,21 @@ def load_onnx_session(model_path: str) -> ort.InferenceSession:
     return session
 
 
-def preprocess(image: np.ndarray, input_size: tuple[int, int] = (300, 300)) -> np.ndarray:
+def preprocess(image, input_size: tuple[int, int] = (300, 300)):  # type: ignore[no-untyped-def]
     """画像をモデル入力形式に変換する（SSD MobileNet v2 想定）。"""
+    import cv2  # noqa: PLC0415
+    import numpy as np  # noqa: PLC0415
+
     img = cv2.resize(image, input_size)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     img = img.astype(np.float32)
-    img = np.expand_dims(img, axis=0)
-    return img
+    return np.expand_dims(img, axis=0)
 
 
-def run_inference(
-    session: ort.InferenceSession, img: np.ndarray
-) -> tuple[np.ndarray, np.ndarray, np.ndarray, int]:
+def run_inference(session, img):  # type: ignore[no-untyped-def]
     """推論を実行し、検出ボックス・クラス・スコアを返す。"""
+    import numpy as np  # noqa: PLC0415
+
     input_name = session.get_inputs()[0].name
     outputs = session.run(None, {input_name: img})
 
@@ -88,12 +85,20 @@ def load_ground_truth(label_path: Path) -> list[int]:
 
 
 def evaluate(
-    session: ort.InferenceSession,
+    session,  # type: ignore[no-untyped-def]
     data_dir: Path,
     conf_threshold: float,
     input_size: tuple[int, int],
 ) -> None:
     """評価を実行して Precision / Recall / F1 / レイテンシを出力する。"""
+    import cv2  # noqa: PLC0415
+    import numpy as np  # noqa: PLC0415
+    from sklearn.metrics import (  # noqa: PLC0415
+        classification_report,
+        precision_recall_fscore_support,
+    )
+    from tqdm import tqdm  # noqa: PLC0415
+
     images_dir = data_dir / "images"
     labels_dir = data_dir / "labels"
     image_paths = sorted(images_dir.glob("*.jpg"))
@@ -128,10 +133,7 @@ def evaluate(
                 pred_classes.append(local_id)
 
         # 1画像につき1クラスの判定（最高スコアクラス）
-        if gt_classes:
-            gt_label = gt_classes[0]
-        else:
-            gt_label = -1  # 背景
+        gt_label = gt_classes[0] if gt_classes else -1  # 背景
 
         pred_label = pred_classes[0] if pred_classes else -1
 
@@ -142,15 +144,19 @@ def evaluate(
     print("\n" + "=" * 60)
     print("検知性能評価レポート")
     print("=" * 60)
-    print(classification_report(
-        y_true, y_pred,
-        labels=list(range(len(CLASS_NAMES))),
-        target_names=CLASS_NAMES,
-        zero_division=0,
-    ))
+    print(
+        classification_report(
+            y_true,
+            y_pred,
+            labels=list(range(len(CLASS_NAMES))),
+            target_names=CLASS_NAMES,
+            zero_division=0,
+        )
+    )
 
     p, r, f1, _ = precision_recall_fscore_support(
-        y_true, y_pred,
+        y_true,
+        y_pred,
         average="macro",
         zero_division=0,
     )
@@ -169,7 +175,9 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="ONNXモデルの検知性能を評価する")
     parser.add_argument("--model", required=True, help="ONNXモデルファイルパス")
     parser.add_argument(
-        "--data", default="./training_data", help="学習データディレクトリ（images/, labels/ を含む）"
+        "--data",
+        default="./training_data",
+        help="学習データディレクトリ（images/, labels/ を含む）",
     )
     parser.add_argument("--conf", type=float, default=0.5, help="信頼度しきい値")
     parser.add_argument(

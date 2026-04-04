@@ -10,25 +10,22 @@ YOLO形式の学習データとして保存するスクリプト。
 
 import argparse
 import json
-import os
 import time
 from pathlib import Path
-from typing import Optional
-
-import requests
-from tqdm import tqdm
 
 
 def get_events(
     host: str,
-    camera: Optional[str] = None,
-    label: Optional[str] = None,
+    camera: str | None = None,
+    label: str | None = None,
     limit: int = 100,
-    after: Optional[float] = None,
-    before: Optional[float] = None,
+    after: float | None = None,
+    before: float | None = None,
     has_snapshot: bool = True,
 ) -> list[dict]:
     """Frigate Events APIからイベント一覧を取得する。"""
+    import requests  # noqa: PLC0415
+
     params: dict = {"limit": limit, "has_snapshot": int(has_snapshot)}
     if camera:
         params["camera"] = camera
@@ -46,6 +43,8 @@ def get_events(
 
 def download_snapshot(host: str, event_id: str, dest_path: Path) -> bool:
     """イベントのスナップショット画像をダウンロードする。"""
+    import requests  # noqa: PLC0415
+
     url = f"{host}/api/events/{event_id}/snapshot.jpg"
     try:
         resp = requests.get(url, timeout=30)
@@ -59,6 +58,8 @@ def download_snapshot(host: str, event_id: str, dest_path: Path) -> bool:
 
 def download_thumbnail(host: str, event_id: str, dest_path: Path) -> bool:
     """イベントのサムネイル画像をダウンロードする。"""
+    import requests  # noqa: PLC0415
+
     url = f"{host}/api/events/{event_id}/thumbnail.jpg"
     try:
         resp = requests.get(url, timeout=30)
@@ -126,12 +127,14 @@ def collect_samples(
     host: str,
     output_dir: Path,
     labels: list[str],
-    camera: Optional[str],
+    camera: str | None,
     limit: int,
-    after: Optional[float],
-    before: Optional[float],
+    after: float | None,
+    before: float | None,
 ) -> None:
     """メイン収集処理。"""
+    from tqdm import tqdm  # noqa: PLC0415
+
     output_dir.mkdir(parents=True, exist_ok=True)
     images_dir = output_dir / "images"
     labels_dir = output_dir / "labels"
@@ -195,12 +198,8 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Frigate Events APIから学習用スナップショットを収集する"
     )
-    parser.add_argument(
-        "--host", default="http://localhost:5000", help="Frigate のホストURL"
-    )
-    parser.add_argument(
-        "--output", default="./training_data", help="保存先ディレクトリ"
-    )
+    parser.add_argument("--host", default="http://localhost:5000", help="Frigate のホストURL")
+    parser.add_argument("--output", default="./training_data", help="保存先ディレクトリ")
     parser.add_argument(
         "--labels",
         nargs="+",
