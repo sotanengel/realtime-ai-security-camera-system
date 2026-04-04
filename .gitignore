@@ -1,0 +1,50 @@
+# 環境変数・資格情報（Takumi Guard: 平文パスワード禁止 NF-023）
+.env
+*.env
+!*.env.example
+
+# 録画・スナップショットデータ
+raspberry-pi/media/
+laptop/media/
+**/clips/
+**/snapshots/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+dist/
+.eggs/
+
+# pip キャッシュ
+.pip_cache/
+
+# Flutter / Dart
+mobile/**/.dart_tool/
+mobile/**/build/
+mobile/**/.flutter-plugins
+mobile/**/.flutter-plugins-dependencies
+mobile/**/pubspec.lock
+mobile/**/*.iml
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# TFLite / ONNX モデルバイナリ（大容量）
+*.tflite
+*.onnx
+*.pt
+*.engine
+
+# Docker
+**/docker-compose.override.yml

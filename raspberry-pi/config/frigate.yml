@@ -1,0 +1,123 @@
+mqtt:
+  enabled: false
+  # Home Assistant と連携する場合は以下を有効化
+  # enabled: true
+  # host: <Home AssistantのIP>
+  # port: 1883
+  # topic_prefix: frigate
+
+# Frigate Web UI 認証（NF-021: UI認証を必須とする）
+auth:
+  enabled: true
+  # 初回起動後、UIから管理者パスワードを設定してください
+
+# カメラ設定
+cameras:
+  balcony:
+    enabled: true
+    ffmpeg:
+      inputs:
+        # 録画用ストリーム（高解像度）
+        - path: rtsp://127.0.0.1:8554/balcony_main
+          roles:
+            - record
+        # 検知用ストリーム（低解像度・低fps）
+        - path: rtsp://127.0.0.1:8554/balcony_sub
+          roles:
+            - detect
+      # ハードウェアデコード: Raspberry Piの場合 h264_v4l2m2m を検討
+      # hwaccel_args: preset-rpi-64-h264
+
+    detect:
+      enabled: true
+      width: 1280
+      height: 720
+      fps: 5
+
+    record:
+      enabled: true
+      retain:
+        days: 7
+        mode: motion
+      events:
+        retain:
+          default: 30
+          mode: active_objects
+
+    snapshots:
+      enabled: true
+      timestamp: true
+      bounding_box: true
+      retain:
+        default: 30
+
+    motion:
+      threshold: 25
+      contour_area: 10
+      # 誤検知抑制: 洗濯物や遠景をマスクする（ピクセル座標は実環境で調整）
+      # mask:
+      #   - 0,0,1280,200       # 空・遠景エリア上部
+      #   - 900,400,1280,720   # 洗濯物エリア（例）
+
+    zones:
+      # ベランダ内ゾーン（侵入検知対象エリア）
+      # 座標はカメラ映像を見ながら実環境に合わせて調整する
+      balcony_interior:
+        coordinates: 100,200,1180,200,1180,700,100,700
+        loitering_time: 0
+        filters:
+          person:
+            min_score: 0.6
+            threshold: 0.7
+          bird:
+            min_score: 0.5
+            threshold: 0.65
+          cat:
+            min_score: 0.5
+            threshold: 0.65
+          dog:
+            min_score: 0.5
+            threshold: 0.65
+
+# 物体検知設定
+objects:
+  track:
+    - person
+    - bird
+    - cat
+    - dog
+  filters:
+    person:
+      min_area: 1500
+      max_area: 100000
+      min_score: 0.5
+      threshold: 0.7
+    bird:
+      min_area: 500
+      max_area: 50000
+      min_score: 0.4
+      threshold: 0.6
+    cat:
+      min_area: 800
+      max_area: 60000
+      min_score: 0.45
+      threshold: 0.65
+    dog:
+      min_area: 1000
+      max_area: 80000
+      min_score: 0.45
+      threshold: 0.65
+
+# 物体検知エンジン（Raspberry Pi: CPU = TensorFlow Lite）
+detectors:
+  cpu1:
+    type: cpu
+    num_threads: 3
+
+# ストレージ設定
+database:
+  path: /config/frigate.db
+
+# タイムゾーン
+environment_vars:
+  TZ: Asia/Tokyo

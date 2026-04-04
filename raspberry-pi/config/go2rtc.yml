@@ -1,0 +1,19 @@
+streams:
+  # カメラ名（任意の識別子）と RTSPストリームURLを設定する
+  # 例: rtsp://<ユーザ名>:<パスワード>@<カメラIP>/stream1
+  balcony_main:
+    - rtsp://${CAMERA_USERNAME}:${CAMERA_PASSWORD}@${CAMERA_IP}:${CAMERA_PORT:-554}/${CAMERA_MAIN_PATH:-stream1}
+
+  # サブストリーム（低解像度・低fps、検知用）
+  balcony_sub:
+    - rtsp://${CAMERA_USERNAME}:${CAMERA_PASSWORD}@${CAMERA_IP}:${CAMERA_PORT:-554}/${CAMERA_SUB_PATH:-stream2}
+
+# Webインターフェース（ポート1984）はデフォルトで有効
+# 注意: ポートはLAN内のみ到達可能に制限すること（NF-022）
+api:
+  listen: "0.0.0.0:1984"
+
+# WebRTC（スマホアプリからのライブ表示に使用）
+webrtc:
+  listen: ":8555/tcp"
+  listen: ":8555/udp"

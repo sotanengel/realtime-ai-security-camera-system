@@ -1,0 +1,70 @@
+name: balcony_guard_app
+description: ベランダ監視補助アプリ - ライブ映像・イベント確認・on-device物体検知
+
+publish_to: none
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.2.0 <4.0.0"
+
+# ──────────────────────────────────────────────────────────────
+# Takumi Guard サプライチェーンセキュリティ（NF-023相当）
+#
+# Dart pub パッケージも Takumi Guard でスキャンしてください。
+# 設定方法: https://flatt.tech/takumi/features/guard
+# Takumi Guard の pub 連携設定が公開された場合は、
+# pub_hosted_url または dependency_overrides で設定してください。
+# ──────────────────────────────────────────────────────────────
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # HTTP通信（Frigate API）
+  http: ^1.2.0
+
+  # 設定管理
+  shared_preferences: ^2.2.2
+
+  # 映像ストリーミング（go2rtcのHLS/WebRTCストリーム表示）
+  flutter_vlc_player: ^7.4.1
+
+  # カメラ（on-device推論用）
+  camera: ^0.10.5+9
+
+  # MediaPipe / TFLite on-device推論
+  tflite_flutter: ^0.10.4
+
+  # 画像処理
+  image: ^4.1.7
+
+  # ローカル通知（NF-032: 検知時通知）
+  flutter_local_notifications: ^17.1.2
+
+  # ナビゲーション
+  go_router: ^13.2.1
+
+  # 状態管理
+  flutter_riverpod: ^2.5.1
+  riverpod_annotation: ^2.3.5
+
+  # UIコンポーネント
+  cached_network_image: ^3.3.1
+  intl: ^0.19.0
+
+  # アイコン
+  flutter_svg: ^2.0.10+1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+  build_runner: ^2.4.8
+  riverpod_generator: ^2.4.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    # MediaPipe / TFLite モデルファイル（assets/models/ に配置）
+    # モデルのダウンロード方法は README.md を参照
+    - assets/models/

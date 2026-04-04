@@ -1,0 +1,29 @@
+# ベランダ監視システム - Laptop環境 Python依存ライブラリ
+# インストール方法: pip install -r requirements.txt
+#
+# Takumi Guard 有効化済みの pip.conf を使用してインストールしてください:
+#   pip install --config-file pip.conf -r requirements.txt
+
+# Frigate API通信
+requests>=2.31.0
+
+# 画像処理
+opencv-python>=4.9.0
+Pillow>=10.2.0
+
+# ONNX Runtime（CPU推論・モデル評価）
+onnxruntime>=1.17.0
+
+# Ultralytics YOLO（モデル検証・評価）
+ultralytics>=8.1.0
+
+# データ処理・評価指標
+numpy>=1.26.0
+pandas>=2.2.0
+scikit-learn>=1.4.0
+
+# 設定ファイル
+python-dotenv>=1.0.0
+
+# 進捗表示
+tqdm>=4.66.0

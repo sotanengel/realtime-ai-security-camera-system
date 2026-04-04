@@ -1,0 +1,20 @@
+streams:
+  # カメラ 1（メイン・ベランダ）
+  balcony_main:
+    - rtsp://${CAMERA_USERNAME}:${CAMERA_PASSWORD}@${CAMERA_IP}:${CAMERA_PORT:-554}/${CAMERA_MAIN_PATH:-stream1}
+
+  balcony_sub:
+    - rtsp://${CAMERA_USERNAME}:${CAMERA_PASSWORD}@${CAMERA_IP}:${CAMERA_PORT:-554}/${CAMERA_SUB_PATH:-stream2}
+
+  # カメラ 2（任意追加）
+  # balcony2_main:
+  #   - rtsp://${CAMERA2_USERNAME}:${CAMERA2_PASSWORD}@${CAMERA2_IP}:554/${CAMERA2_MAIN_PATH}
+  # balcony2_sub:
+  #   - rtsp://${CAMERA2_USERNAME}:${CAMERA2_PASSWORD}@${CAMERA2_IP}:554/${CAMERA2_SUB_PATH}
+
+api:
+  listen: "0.0.0.0:1984"
+
+webrtc:
+  listen: ":8555/tcp"
+  listen: ":8555/udp"

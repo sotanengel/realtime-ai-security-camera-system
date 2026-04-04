@@ -1,0 +1,33 @@
+services:
+  go2rtc:
+    image: ghcr.io/alexxit/go2rtc:latest
+    container_name: go2rtc
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - ./config/go2rtc.yml:/config/go2rtc.yml:ro
+    environment:
+      - TZ=${TZ:-Asia/Tokyo}
+
+  frigate:
+    image: ghcr.io/blakeblackshear/frigate:stable
+    container_name: frigate
+    restart: unless-stopped
+    network_mode: host
+    privileged: true
+    shm_size: "256mb"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./config/frigate.yml:/config/config.yml:ro
+      - ./media:/media/frigate
+      - type: tmpfs
+        target: /tmp/cache
+        tmpfs:
+          size: 2000000000
+    # Intel iGPU（OpenVINO向け）: 利用可能な場合はコメントを外す
+    # devices:
+    #   - /dev/dri:/dev/dri
+    environment:
+      - FRIGATE_RTSP_PASSWORD=${CAMERA_PASSWORD}
+    depends_on:
+      - go2rtc

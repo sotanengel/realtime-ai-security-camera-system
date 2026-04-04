@@ -1,0 +1,145 @@
+mqtt:
+  enabled: false
+
+auth:
+  enabled: true
+
+cameras:
+  balcony:
+    enabled: true
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/balcony_main
+          roles:
+            - record
+        - path: rtsp://127.0.0.1:8554/balcony_sub
+          roles:
+            - detect
+      # Intel iGPU ハードウェアデコード（vaapi）を使う場合:
+      # hwaccel_args: preset-vaapi
+      # Apple Silicon の場合:
+      # hwaccel_args: preset-mac-h264
+
+    detect:
+      enabled: true
+      width: 1280
+      height: 720
+      fps: 5
+
+    record:
+      enabled: true
+      retain:
+        days: 7
+        mode: motion
+      events:
+        retain:
+          default: 30
+          mode: active_objects
+
+    snapshots:
+      enabled: true
+      timestamp: true
+      bounding_box: true
+      retain:
+        default: 30
+
+    motion:
+      threshold: 25
+      contour_area: 10
+      # マスク例（実環境に合わせて調整）
+      # mask:
+      #   - 0,0,1280,150       # 空・遠景
+      #   - 950,350,1280,720   # 洗濯物エリア
+
+    zones:
+      balcony_interior:
+        coordinates: 100,200,1180,200,1180,700,100,700
+        loitering_time: 0
+        filters:
+          person:
+            min_score: 0.6
+            threshold: 0.7
+          bird:
+            min_score: 0.5
+            threshold: 0.65
+          cat:
+            min_score: 0.5
+            threshold: 0.65
+          dog:
+            min_score: 0.5
+            threshold: 0.65
+
+  # カメラ2（必要に応じてコメントアウトを解除）
+  # balcony2:
+  #   enabled: false
+  #   ffmpeg:
+  #     inputs:
+  #       - path: rtsp://127.0.0.1:8554/balcony2_main
+  #         roles: [record]
+  #       - path: rtsp://127.0.0.1:8554/balcony2_sub
+  #         roles: [detect]
+
+objects:
+  track:
+    - person
+    - bird
+    - cat
+    - dog
+  filters:
+    person:
+      min_area: 1500
+      max_area: 100000
+      min_score: 0.5
+      threshold: 0.7
+    bird:
+      min_area: 500
+      max_area: 50000
+      min_score: 0.4
+      threshold: 0.6
+    cat:
+      min_area: 800
+      max_area: 60000
+      min_score: 0.45
+      threshold: 0.65
+    dog:
+      min_area: 1000
+      max_area: 80000
+      min_score: 0.45
+      threshold: 0.65
+
+# 物体検知エンジン
+# ── オプション1: OpenVINO（Intel CPU / iGPU 推奨）
+#    /dev/dri をdocker-compose.ymlで渡した場合に使用可能
+detectors:
+  ov:
+    type: openvino
+    device: AUTO
+    model:
+      path: /openvino-model/ssdlite_mobilenet_v2.xml
+
+# ── オプション2: ONNX Runtime（CPU、クロスプラットフォーム）
+#    OpenVINOが使えない環境（Apple Silicon等）では下記に切り替え
+# detectors:
+#   ort:
+#     type: onnxruntime
+#     device: cpu
+
+# ── フォールバック: CPU（TFLite）
+# detectors:
+#   cpu1:
+#     type: cpu
+#     num_threads: 4
+
+# OpenVINO 使用時のモデル設定
+model:
+  width: 300
+  height: 300
+  input_tensor: nhwc
+  input_pixel_format: bgr
+  labelmap_path: /labelmap/coco-80.txt
+
+database:
+  path: /config/frigate.db
+
+environment_vars:
+  TZ: Asia/Tokyo
