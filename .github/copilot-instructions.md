@@ -8,7 +8,7 @@ Wi-Fiカメラ + Frigate + go2rtc + Flutter で構成され、クラウド不依
 ## アーキテクチャ
 
 | ディレクトリ | 実行環境 | 技術 |
-|---|---|---|
+| --- | --- | --- |
 | `raspberry-pi/` | Raspberry Pi | Frigate + go2rtc (CPU推論) |
 | `laptop/` | ノートPC | Frigate + OpenVINO/ONNX Runtime |
 | `mobile/balcony_guard_app/` | iOS/Android | Flutter + TFLite (MediaPipe) |

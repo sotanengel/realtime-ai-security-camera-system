@@ -17,7 +17,7 @@
 パッケージインストール時の悪意あるパッケージを自動ブロックします。
 
 Takumi Guard の登録・設定は公式サイトを参照してください:
-https://flatt.tech/takumi/features/guard
+<https://flatt.tech/takumi/features/guard>
 
 ### 2. リポジトリの取得
 
@@ -34,7 +34,7 @@ nano .env  # カメラのIP・ユーザ名・パスワードを設定
 ```
 
 | 変数名 | 説明 |
-|--------|------|
+| -------- | ------ |
 | `CAMERA_IP` | カメラのIPアドレス（例: 192.168.1.100） |
 | `CAMERA_USERNAME` | カメラのログインユーザ名 |
 | `CAMERA_PASSWORD` | カメラのログインパスワード |
@@ -93,7 +93,7 @@ sudo systemctl enable docker
 ## Hailo AIアクセラレータ（任意）
 
 Hailo-8 / Hailo-8L を使用する場合、Frigate の Hailo 対応設定が必要です。
-詳細: https://docs.frigate.video/configuration/object_detectors/#hailo
+詳細: <https://docs.frigate.video/configuration/object_detectors/#hailo>
 
 ## セキュリティ設定
 
@@ -130,7 +130,7 @@ sudo ufw enable
 
 ## ディレクトリ構成
 
-```
+```text
 raspberry-pi/
 ├── docker-compose.yml    # コンテナ定義
 ├── config/
