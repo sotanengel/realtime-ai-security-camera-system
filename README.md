@@ -6,7 +6,7 @@ Wi-Fi接続カメラとOSSを組み合わせた、ローカルファーストな
 ## 実行環境別の構成
 
 | レベル | 実行環境 | ディレクトリ | 主な技術 |
-|--------|----------|------------|---------|
+| -------- | ---------- | ------------ | --------- |
 | Level 1 | Raspberry Pi | [`raspberry-pi/`](./raspberry-pi/) | Frigate + go2rtc（CPU推論） |
 | Level 2 | スマートフォン | [`mobile/`](./mobile/) | Flutter + MediaPipe（on-device推論） |
 | Level 3 | ノートPC | [`laptop/`](./laptop/) | Frigate + OpenVINO / ONNX Runtime |
@@ -15,7 +15,7 @@ Wi-Fi接続カメラとOSSを組み合わせた、ローカルファーストな
 
 ## システム構成
 
-```
+```text
 [Wi-Fi カメラ（RTSP/ONVIF）]
         ↓
    [go2rtc]  ← ストリーム中継・HLS/WebRTC変換
@@ -69,7 +69,7 @@ flutter run
 
 - **Takumi Guard**（GMO Flatt Security）によるサプライチェーン保護
   パッケージインストール前に悪意あるパッケージを自動ブロック
-  詳細: https://flatt.tech/takumi/features/guard
+  詳細: <https://flatt.tech/takumi/features/guard>
 
 - 資格情報は `.env` ファイルで管理（Git管理外）
 - Frigate UI認証を有効化
@@ -78,7 +78,7 @@ flutter run
 ## カメラ要件
 
 | 要件 | 詳細 |
-|------|------|
+| ------ | ------ |
 | 接続方式 | Wi-Fi |
 | 映像取得 | RTSP または ONVIF Profile S |
 | コーデック | H.264（必須）、H.265（任意） |

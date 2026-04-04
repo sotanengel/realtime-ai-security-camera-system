@@ -20,7 +20,7 @@
 本アプリでは [Takumi Guard](https://flatt.tech/takumi/features/guard) によるサプライチェーン保護を採用しています。
 
 Dart / Flutter パッケージの Guard 設定は公式サイトを参照してください:
-https://flatt.tech/takumi/features/guard
+<https://flatt.tech/takumi/features/guard>
 
 Takumi Guard が pub レジストリプロキシを提供している場合、`pubspec.yaml` を以下のように設定します:
 
@@ -106,7 +106,7 @@ flutter build apk --release
 
 アプリ起動後、ホーム画面右上の⚙️ボタンから FrigateのホストURLを設定します。
 
-```
+```text
 http://192.168.1.100:5000
 ```
 
@@ -132,7 +132,7 @@ http://192.168.1.100:5000
 
 ## アーキテクチャ
 
-```
+```text
 lib/
 ├── main.dart                      # エントリポイント・通知初期化
 ├── app.dart                       # ルーター・テーマ設定
@@ -166,7 +166,7 @@ lib/
 
 ### モデルが見つからない
 
-```
+```text
 assets/models/efficientdet_lite0.tflite を配置してください
 ```
 

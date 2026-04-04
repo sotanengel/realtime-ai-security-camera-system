@@ -16,7 +16,7 @@
 本プロジェクトでは [Takumi Guard](https://flatt.tech/takumi/features/guard) を使用して、
 Pythonパッケージのサプライチェーンセキュリティを確保します。
 
-1. Takumi のアカウント作成・Guard設定: https://flatt.tech/takumi/features/guard
+1. Takumi のアカウント作成・Guard設定: <https://flatt.tech/takumi/features/guard>
 2. 発行されたGuardレジストリURLを `scripts/pip.conf` の `index-url` に設定する
 
 ```ini
@@ -98,7 +98,7 @@ python collect_training_samples.py \
 
 収集データは `training_data/` に保存されます:
 
-```
+```text
 training_data/
 ├── images/     # スナップショット画像
 ├── labels/     # YOLO形式アノテーション（.txt）
@@ -119,7 +119,8 @@ python evaluate_model.py \
 ```
 
 出力例:
-```
+
+```text
 Precision / Recall / F1 per class
 推論レイテンシ P50 / P95
 ```
@@ -150,7 +151,7 @@ sudo ufw deny 1984
 
 ## ディレクトリ構成
 
-```
+```text
 laptop/
 ├── docker-compose.yml
 ├── config/
