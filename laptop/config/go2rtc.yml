@@ -16,5 +16,4 @@ api:
   listen: "0.0.0.0:1984"
 
 webrtc:
-  listen: ":8555/tcp"
-  listen: ":8555/udp"
+  listen: ":8555"

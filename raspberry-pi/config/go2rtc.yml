@@ -1,6 +1,4 @@
 streams:
-  # カメラ名（任意の識別子）と RTSPストリームURLを設定する
-  # 例: rtsp://<ユーザ名>:<パスワード>@<カメラIP>/stream1
   balcony_main:
     - rtsp://${CAMERA_USERNAME}:${CAMERA_PASSWORD}@${CAMERA_IP}:${CAMERA_PORT:-554}/${CAMERA_MAIN_PATH:-stream1}
 
@@ -15,5 +13,4 @@ api:
 
 # WebRTC（スマホアプリからのライブ表示に使用）
 webrtc:
-  listen: ":8555/tcp"
-  listen: ":8555/udp"
+  listen: ":8555"
