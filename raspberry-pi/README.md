@@ -16,7 +16,7 @@
 本プロジェクトでは [Takumi Guard](https://flatt.tech/takumi/features/guard) を使用して、
 パッケージインストール時の悪意あるパッケージを自動ブロックします。
 
-Takumi Guard の登録・設定は公式サイトを参照してください:  
+Takumi Guard の登録・設定は公式サイトを参照してください:
 https://flatt.tech/takumi/features/guard
 
 ### 2. リポジトリの取得
@@ -92,7 +92,7 @@ sudo systemctl enable docker
 
 ## Hailo AIアクセラレータ（任意）
 
-Hailo-8 / Hailo-8L を使用する場合、Frigate の Hailo 対応設定が必要です。  
+Hailo-8 / Hailo-8L を使用する場合、Frigate の Hailo 対応設定が必要です。
 詳細: https://docs.frigate.video/configuration/object_detectors/#hailo
 
 ## セキュリティ設定

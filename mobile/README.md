@@ -19,7 +19,7 @@
 
 本アプリでは [Takumi Guard](https://flatt.tech/takumi/features/guard) によるサプライチェーン保護を採用しています。
 
-Dart / Flutter パッケージの Guard 設定は公式サイトを参照してください:  
+Dart / Flutter パッケージの Guard 設定は公式サイトを参照してください:
 https://flatt.tech/takumi/features/guard
 
 Takumi Guard が pub レジストリプロキシを提供している場合、`pubspec.yaml` を以下のように設定します:
