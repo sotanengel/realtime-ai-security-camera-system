@@ -39,7 +39,7 @@ dependencies:
   image: ^4.1.7
 
   # ローカル通知（NF-032: 検知時通知）
-  flutter_local_notifications: ^17.1.2
+  flutter_local_notifications: ^21.0.0
 
   # ナビゲーション
   go_router: ^13.2.1
