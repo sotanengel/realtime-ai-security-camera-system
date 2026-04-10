@@ -3,8 +3,6 @@ name: Branch Protection
 on:
   push:
     branches: [main]
-    paths:
-      - ".github/branch-protection.json"
   workflow_dispatch:
 
 jobs:
