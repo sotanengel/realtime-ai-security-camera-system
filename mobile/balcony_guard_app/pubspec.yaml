@@ -33,7 +33,7 @@ dependencies:
   camera: ^0.10.5+9
 
   # MediaPipe / TFLite on-device推論
-  tflite_flutter: ^0.10.4
+  tflite_flutter: ^0.12.1
 
   # 画像処理
   image: ^4.1.7
