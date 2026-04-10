@@ -33,7 +33,7 @@ dependencies:
   camera: ^0.12.0+1
 
   # MediaPipe / TFLite on-device推論
-  tflite_flutter: ^0.10.4
+  tflite_flutter: ^0.12.1
 
   # 画像処理
   image: ^4.1.7
@@ -58,7 +58,7 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.0
+  flutter_lints: ^6.0.0
   build_runner: ^2.4.8
   riverpod_generator: ^2.4.0
 
