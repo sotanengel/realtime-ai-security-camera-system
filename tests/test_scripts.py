@@ -64,6 +64,29 @@ class TestEvaluateModel:
         assert result.returncode != 0
 
 
+class TestCollectVideoSamples:
+    def test_help_exits_zero(self) -> None:
+        result = _run_script("collect_video_samples.py", "--help")
+        assert result.returncode == 0
+
+    def test_help_contains_input_option(self) -> None:
+        result = _run_script("collect_video_samples.py", "--help")
+        assert "--input" in result.stdout
+
+    def test_help_contains_model_option(self) -> None:
+        result = _run_script("collect_video_samples.py", "--help")
+        assert "--model" in result.stdout
+
+    def test_help_contains_interval_option(self) -> None:
+        result = _run_script("collect_video_samples.py", "--help")
+        assert "--interval" in result.stdout
+
+    def test_missing_input_exits_nonzero(self) -> None:
+        """--input を指定しない場合はエラー終了すること。"""
+        result = _run_script("collect_video_samples.py")
+        assert result.returncode != 0
+
+
 class TestPackageImport:
     def test_import_package(self) -> None:
         from balcony_guard import __version__
@@ -79,3 +102,8 @@ class TestPackageImport:
         result = _run_module("balcony_guard.evaluate_model", "--help")
         assert result.returncode == 0
         assert "--model" in result.stdout
+
+    def test_video_module_help(self) -> None:
+        result = _run_module("balcony_guard.collect_video_samples", "--help")
+        assert result.returncode == 0
+        assert "--input" in result.stdout

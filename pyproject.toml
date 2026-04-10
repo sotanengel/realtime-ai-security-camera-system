@@ -38,6 +38,7 @@ Repository = "https://github.com/sotanengel/realtime-ai-security-camera-system"
 [project.scripts]
 balcony-guard-collect = "balcony_guard.collect_training_samples:main"
 balcony-guard-evaluate = "balcony_guard.evaluate_model:main"
+balcony-guard-video = "balcony_guard.collect_video_samples:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/balcony_guard"]
