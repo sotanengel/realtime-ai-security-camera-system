@@ -19,6 +19,14 @@ def _run_script(script_name: str, *args: str) -> subprocess.CompletedProcess:
     )
 
 
+def _run_module(module_name: str, *args: str) -> subprocess.CompletedProcess:
+    return subprocess.run(
+        [sys.executable, "-m", module_name, *args],
+        capture_output=True,
+        text=True,
+    )
+
+
 class TestCollectTrainingSamples:
     def test_help_exits_zero(self) -> None:
         result = _run_script("collect_training_samples.py", "--help")
@@ -54,3 +62,20 @@ class TestEvaluateModel:
         """--model を指定しない場合はエラー終了すること。"""
         result = _run_script("evaluate_model.py")
         assert result.returncode != 0
+
+
+class TestPackageImport:
+    def test_import_package(self) -> None:
+        from balcony_guard import __version__
+
+        assert __version__ == "0.1.0"
+
+    def test_collect_module_help(self) -> None:
+        result = _run_module("balcony_guard.collect_training_samples", "--help")
+        assert result.returncode == 0
+        assert "--host" in result.stdout
+
+    def test_evaluate_module_help(self) -> None:
+        result = _run_module("balcony_guard.evaluate_model", "--help")
+        assert result.returncode == 0
+        assert "--model" in result.stdout

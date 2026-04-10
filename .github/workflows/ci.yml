@@ -23,10 +23,10 @@ jobs:
         run: uv sync --group dev
 
       - name: Run ruff check (lint)
-        run: uv run ruff check laptop/scripts/ tests/
+        run: uv run ruff check laptop/scripts/ src/ tests/
 
       - name: Run ruff format check
-        run: uv run ruff format --check laptop/scripts/ tests/
+        run: uv run ruff format --check laptop/scripts/ src/ tests/
 
       - name: Install yamllint
         run: pip install yamllint
