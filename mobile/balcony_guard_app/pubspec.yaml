@@ -50,7 +50,7 @@ dependencies:
 
   # UIコンポーネント
   cached_network_image: ^3.3.1
-  intl: ^0.19.0
+  intl: ^0.20.2
 
   # アイコン
   flutter_svg: ^2.0.10+1
